@@ -1,6 +1,7 @@
-package com.example.task_management_system.model;
+package _4.example.taskManagement.entities.users;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
 
 @Entity
 public class Admin extends BaseUser {
@@ -23,11 +24,5 @@ public class Admin extends BaseUser {
         this.role = role;
     }
 
-    public String getAdminLevel() {
-        return adminLevel;
-    }
-
-    public void setAdminLevel(String adminLevel) {
-        this.adminLevel = adminLevel;
-    }
 }
+
