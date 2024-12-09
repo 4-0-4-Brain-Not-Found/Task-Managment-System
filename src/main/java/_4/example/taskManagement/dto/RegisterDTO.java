@@ -1,9 +1,20 @@
 package _4.example.taskManagement.dto;
 
-public class RegisterDTO {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 
+public class RegisterDTO {
+    @NotBlank(message = "Username cannot be empty")
+    @Size(min = 6, max = 15, message = "Username must be between 6 and 15 characters")
     private String username;
+
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Invalid email format")
     private String email;
+
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 6, message = "Password must have at least 6 characters")
     private String password;
     private String phoneNumber;
 

@@ -33,6 +33,7 @@ public class UserService {
         user.setUsername(userRegisterDTO.getUsername());
         user.setEmail(userRegisterDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+        user.setPhoneNo(userRegisterDTO.getPhoneNumber());
         user.setRole(Role.ROLE_USER);
 
         return userRepository.save(user);
