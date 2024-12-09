@@ -4,6 +4,7 @@ import _4.example.taskManagement.entities.Task;
 import jakarta.persistence.*;
 
 import java.util.Set;
+@Table(name = "user")
 
 @Entity
 public class User extends BaseUser {

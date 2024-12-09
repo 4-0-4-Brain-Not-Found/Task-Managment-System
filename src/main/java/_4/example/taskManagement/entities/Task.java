@@ -4,6 +4,7 @@ import _4.example.taskManagement.entities.users.User;
 import _4.example.taskManagement.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.*;
@@ -30,6 +31,6 @@ public class Task {
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private User user;
+    private User assignedUser;
 
 }
