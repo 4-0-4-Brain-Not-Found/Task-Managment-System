@@ -1,5 +1,6 @@
 package _4.example.taskManagement.entities.users;
 
+import _4.example.taskManagement.entities.Task;
 import jakarta.persistence.*;
 
 import java.util.Set;
