@@ -2,10 +2,13 @@ package _4.example.taskManagement.entities.users;
 
 import _4.example.taskManagement.entities.Task;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Set;
 
 @Entity
+@Data
+@Table(name="user")
 public class User extends BaseUser {
 
     @Column(nullable = false)
