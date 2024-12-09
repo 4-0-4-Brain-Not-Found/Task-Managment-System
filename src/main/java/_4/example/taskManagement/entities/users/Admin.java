@@ -1,28 +1,28 @@
 package _4.example.taskManagement.entities.users;
 
+import _4.example.taskManagement.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 public class Admin extends BaseUser {
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String role = "admin";
-
-    private String adminLevel;
+    private Role role;
 
     public Admin() {
         super();
+        this.role = Role.ROLE_ADMIN;
     }
 
-    // Getter ve Setter metodları
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
-
 }
-

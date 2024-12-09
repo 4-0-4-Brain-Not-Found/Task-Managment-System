@@ -1,6 +1,7 @@
 package _4.example.taskManagement.entities.users;
 
 import _4.example.taskManagement.entities.Task;
+import _4.example.taskManagement.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,34 +9,19 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name="user")
+@Table(name = "user")
 public class User extends BaseUser {
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String role = "user";
+    private Role role;
 
     @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL)
     private Set<Task> tasks;
 
     public User() {
         super();
-    }
-
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
+        this.role = Role.ROLE_USER;
     }
 
     public void resetPassword(String newPassword) {

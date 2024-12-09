@@ -1,14 +1,10 @@
 package _4.example.taskManagement.entities.users;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import _4.example.taskManagement.enums.Role;
+import jakarta.persistence.*;
 
 @MappedSuperclass
-public class BaseUser {
+public abstract class BaseUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +19,14 @@ public class BaseUser {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String phoneNo;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    // Getter ve Setter metodları
     public Long getId() {
         return id;
     }
@@ -54,5 +57,22 @@ public class BaseUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
