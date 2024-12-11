@@ -1,15 +1,17 @@
 package _4.example.taskManagement.entities;
 
-import _4.example.taskManagement.dto.TaskDTO;
+
 import _4.example.taskManagement.entities.users.User;
 import _4.example.taskManagement.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -36,6 +38,9 @@ public class Task {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User assignedUser;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    private Set<Comment> comments;
 
 
 }
