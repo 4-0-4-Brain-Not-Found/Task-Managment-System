@@ -1,5 +1,6 @@
 package _4.example.taskManagement.entities;
 
+import _4.example.taskManagement.dto.CommentDTO;
 import _4.example.taskManagement.entities.users.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -14,11 +15,14 @@ import java.util.Date;
 public class Comment {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 500)
     private String content;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
@@ -29,7 +33,8 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name= "user_id", nullable = false)
     @JsonIgnore
-    private User user;
+    private User assignedUser;
+
 
 
 }
