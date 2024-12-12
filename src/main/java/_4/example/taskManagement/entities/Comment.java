@@ -5,7 +5,6 @@ import _4.example.taskManagement.entities.users.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.*;
 
 import java.util.Date;
@@ -36,5 +35,15 @@ public class Comment {
     private User assignedUser;
 
 
-
+    public Long getId() {return id;}
+    public String getContent() {return content;}
+    public Date getCreatedAt() {return createdAt;}
+    public Task getTask() {return task;}
+    public User getAssignedUser() {return assignedUser;}
+    public void setId(Long id) {this.id = id;}
+    public void setContent(String content) {this.content = content;}
+    public void setCreatedAt(Date createdAt) {this.createdAt = createdAt;}
+    public void setTask(Task task) {this.task = task;}
+    public void setAssignedUser(User assignedUser) {this.assignedUser = assignedUser;}
 }
+
