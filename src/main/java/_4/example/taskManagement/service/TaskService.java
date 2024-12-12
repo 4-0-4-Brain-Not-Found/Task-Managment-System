@@ -8,8 +8,7 @@ import _4.example.taskManagement.entities.users.User;
 import _4.example.taskManagement.exceptions.TaskNotFoundException;
 import _4.example.taskManagement.repos.TaskRepository;
 import _4.example.taskManagement.repos.UserRepository;
-import org.jvnet.hk2.annotations.Service;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
