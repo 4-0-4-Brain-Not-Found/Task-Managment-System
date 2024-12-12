@@ -26,31 +26,18 @@ public class TaskDTO {
 
     // Getter ve Setter metodları
     public Long getId() {return id;}
-
     public void setId(Long id) {this.id = id;}
-
     public String getTitle() {return title;}
-
     public void setTitle(String title) {this.title = title;}
-
     public String getDescription() {return description;}
-
     public void setDescription(String description) {this.description = description;}
-
     public Long getAssignedUserId() {return assignedUserId;}
-
     public void setAssignedUserId(Long assignedUserId) {this.assignedUserId = assignedUserId;}
-
     public Date getDueDate() {return dueDate;}
-
     public void setDueDate(Date dueDate) {this.dueDate = dueDate;}
-
     public TaskStatus getTaskStatus() {return taskStatus;}
-
     public void setTaskStatus(TaskStatus taskStatus) {this.taskStatus = taskStatus;}
-
     public Set<CommentDTO> getComments() { return comments; }
-
     public void setComments(Set<CommentDTO> comments) { this.comments = comments; }
 
 }
