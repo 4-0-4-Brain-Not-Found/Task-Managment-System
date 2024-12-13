@@ -1,6 +1,7 @@
 package _4.example.taskManagement.entities.users;
 
 import _4.example.taskManagement.enums.Role;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @MappedSuperclass
@@ -67,7 +68,6 @@ public abstract class BaseUser {
         this.phoneNo = phoneNo;
     }
 
-
     public Role getRole() {
         return role;
     }
@@ -76,3 +76,4 @@ public abstract class BaseUser {
         this.role = role;
     }
 }
+
