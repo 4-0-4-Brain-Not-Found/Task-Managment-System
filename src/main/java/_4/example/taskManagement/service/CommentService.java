@@ -7,10 +7,12 @@ import _4.example.taskManagement.entities.users.User;
 import _4.example.taskManagement.repos.CommentRepository;
 import _4.example.taskManagement.repos.TaskRepository;
 import _4.example.taskManagement.repos.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class CommentService {
     private final CommentRepository commentRepository;
     private final TaskRepository taskRepository;
