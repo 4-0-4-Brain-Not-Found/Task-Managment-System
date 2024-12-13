@@ -1,7 +1,8 @@
 package _4.example.taskManagement.controller;
 
 import _4.example.taskManagement.entities.users.User;
-import _4.example.taskManagement.repos.UserRepository;
+import _4.example.taskManagement.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,45 +12,40 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+    public ResponseEntity<?> createUser(@RequestBody User newUser) {
+        User createdUser = userService.createUser(newUser);
+        return ResponseEntity.ok("User registered successfully: " + createdUser.getUsername());
     }
 
     @GetMapping("/{id}")
-    public User getOneUser(@PathVariable Long id) {
-        return userRepository.findById(id).orElse(null);
+    public ResponseEntity<?> getOneUser(@PathVariable Long id) {
+        Optional<User> user = userService.getUserById(id);
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public User updateOneUser(@PathVariable Long id, @RequestBody User newUser) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            User foundUser = user.get();
-            foundUser.setUsername(newUser.getUsername());
-            foundUser.setPassword(newUser.getPassword());
-            foundUser.setEmail(newUser.getEmail());
-            foundUser.setPhoneNo(newUser.getPhoneNo());
-            foundUser.setRole(newUser.getRole());
-            return userRepository.save(foundUser);
-        } else {
-            return null;
-        }
+    public ResponseEntity<?> updateOneUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User updated = userService.updateUser(id, updatedUser);
+        return updated != null
+                ? ResponseEntity.ok(updated)
+                : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOneUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+    public ResponseEntity<?> deleteOneUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,54 +1,49 @@
 package _4.example.taskManagement.service;
 
-import _4.example.taskManagement.dto.RegisterDTO;
 import _4.example.taskManagement.entities.users.User;
-import _4.example.taskManagement.enums.Role;
 import _4.example.taskManagement.repos.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-
-
-    public User registerUser(RegisterDTO userRegisterDTO) {
-
-        // Kullanıcı adı kontrolü
-        if (userRepository.findByUsername(userRegisterDTO.getUsername()).isPresent()) {
-            throw new RuntimeException("Username is already taken");
-        }
-
-        // E-posta kontrolü
-        if (userRepository.findByEmail(userRegisterDTO.getEmail()).isPresent()) {
-            throw new RuntimeException("Email is already registered");
-        }
-
-        // Yeni kullanıcı oluşturulur
-        User user = new User();
-        user.setUsername(userRegisterDTO.getUsername());
-        user.setEmail(userRegisterDTO.getEmail());
-        user.setPassword(userRegisterDTO.getPassword());
-        user.setPhoneNo(userRegisterDTO.getPhoneNumber());
-        user.setRole(Role.ROLE_USER);
-
-        // Kullanıcıyı veritabanına kaydet
-        return userRepository.save(user);
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public Optional<User> loginUser(String username, String password) {
-        Optional<User> user = userRepository.findByUsername(username);
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
-        //Şifre doğrulanması
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
-            return user;
+    public User createUser(User newUser) {
+        return userRepository.save(newUser);
+    }
+
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public User updateUser(Long id, User updatedUser) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            foundUser.setUsername(updatedUser.getUsername());
+            foundUser.setPassword(updatedUser.getPassword());
+            foundUser.setEmail(updatedUser.getEmail());
+            foundUser.setPhoneNo(updatedUser.getPhoneNo());
+            foundUser.setRole(updatedUser.getRole());
+            return userRepository.save(foundUser);
         } else {
-            throw new RuntimeException("Invalid Username or Password! Try Again");
+            return null;
         }
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
