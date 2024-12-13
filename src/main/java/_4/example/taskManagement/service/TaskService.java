@@ -39,7 +39,9 @@ public class TaskService {
     }
     //Yeni görev oluşturma
     public TaskDTO createTask(TaskDTO taskDTO) {
-         throw new UnsupportedOperationException();
+         Task task = convertToEntity(taskDTO);
+         Task savedTask = taskRepository.save(task);
+         return convertToDTO(savedTask);
     }
     //Güncelleme
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
