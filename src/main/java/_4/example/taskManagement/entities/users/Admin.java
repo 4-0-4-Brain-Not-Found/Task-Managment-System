@@ -1,10 +1,7 @@
 package _4.example.taskManagement.entities.users;
 
 import _4.example.taskManagement.enums.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
 @Entity
 public class Admin extends BaseUser {

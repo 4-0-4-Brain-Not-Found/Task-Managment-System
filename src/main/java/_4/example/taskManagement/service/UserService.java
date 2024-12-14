@@ -24,8 +24,9 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);  // Return User or null if not found
     }
 
     public User updateUser(Long id, User updatedUser) {
@@ -43,7 +44,12 @@ public class UserService {
         }
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public boolean deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+            return true;  // Successfully deleted
+        }
+        return false;  // User not found
     }
 }
