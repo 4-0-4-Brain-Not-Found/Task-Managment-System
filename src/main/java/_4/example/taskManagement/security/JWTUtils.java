@@ -2,7 +2,7 @@ package _4.example.taskManagement.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -12,42 +12,73 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
 
+/**
+ * JSON Web Token (JWT) işlemleri için yardımcı sınıf.
+ * JWT oluşturma, doğrulama ve kullanıcı bilgilerini çıkarma işlemlerini içerir.
+ */
 @Component
 public class JWTUtils {
 
-    private SecretKey key;
+    // Gizli anahtar (secret key)
+    private String secretKey = "dhfckjflsadşaslfpdkljhlkxlgjdlhjdblkjlhfdldnldfjblk";
 
-    private static final long EXPIRATION_TIME = 86400000;
+    // Gizli anahtarı temsil eden SecretKey nesnesi
+    private final SecretKey key;
 
+    // Token'ın geçerlilik süresi (1 saat)
+    private static final long EXPIRATION_TIME = 3600000;
+
+    /**
+     * JWTUtils sınıfının yapıcı metodu.
+     * Gizli anahtarı SecretKey nesnesine dönüştürür.
+     */
     public JWTUtils() {
-        // Generate a secure key of 256 bits for HS256
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
+    /**
+     * Kullanıcı detaylarına göre bir JWT oluşturur.
+     *
+     * @param userDetails Kullanıcı detayları
+     * @return Oluşturulan JWT
+     */
     public String generateToken(UserDetails userDetails) {
+        // Kullanıcının yetkilerini alır ve ilk yetkiyi rol olarak belirler
         String role = userDetails.getAuthorities().stream()
-                .map(authority -> authority.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .filter(auth -> auth.startsWith("ROLE_"))
                 .findFirst()
-                .orElse("ROLE_USER"); // Default role if no role is found
+                .orElse("ROLE_USER");
 
+        // JWT'yi oluşturur ve döndürür
         return Jwts.builder()
                 .subject(userDetails.getUsername())
-                .claim("role", role)  // Add 'role' claim here
+                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key)
                 .compact();
     }
 
+    /**
+     * Kullanıcı detayları ve ek taleplerle (claims) bir refresh token oluşturur.
+     *
+     * @param claims      Ek talepler
+     * @param userDetails Kullanıcı detayları
+     * @return Oluşturulan refresh token
+     */
     public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails) {
+        // Kullanıcının yetkilerini alır ve ilk yetkiyi rol olarak belirler
         String role = userDetails.getAuthorities().stream()
-                .map(authority -> authority.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .filter(auth -> auth.startsWith("ROLE_"))
                 .findFirst()
-                .orElse("ROLE_USER"); // Default role if no role is found
+                .orElse("ROLE_USER");
 
-        claims.put("role", role);  // Add 'role' claim to claims
+        // Rol bilgisini taleplere ekler
+        claims.put("role", role);
+
+        // Refresh token'ı oluşturur ve döndürür
         return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
@@ -57,23 +88,48 @@ public class JWTUtils {
                 .compact();
     }
 
+    /**
+     * Verilen token'dan kullanıcı adını çıkarır.
+     *
+     * @param token JWT token
+     * @return Kullanıcı adı
+     */
     public String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);
     }
 
+    /**
+     * Verilen token'dan belirtilen talebi (claim) çıkarır.
+     *
+     * @param token           JWT token
+     * @param claimsTFunction Talep çıkarma fonksiyonu
+     * @param <T>             Talep türü
+     * @return Çıkarılan talep
+     */
     private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction) {
         return claimsTFunction.apply(Jwts.parser()
-                .setSigningKey(key)  // Set the signing key
-                .build()  // Build the parser
-                .parseClaimsJws(token)  // Parse the JWT token
-                .getBody());  // Extract the body (claims)
+                .verifyWith(key).build().parseSignedClaims(token).getPayload());
+
     }
 
+    /**
+     * Verilen token'ın geçerliliğini kontrol eder.
+     *
+     * @param token        JWT token
+     * @param userDetails Kullanıcı detayları
+     * @return Geçerli ise true, değilse false
+     */
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    /**
+     * Verilen token'ın süresinin dolup dolmadığını kontrol eder.
+     *
+     * @param token JWT token
+     * @return Süresi dolmuşsa true, dolmamışsa false
+     */
     public boolean isTokenExpired(String token) {
         return extractClaims(token, Claims::getExpiration).before(new Date());
     }

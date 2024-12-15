@@ -1,11 +1,13 @@
 package _4.example.taskManagement.service;
 
 import _4.example.taskManagement.entities.users.User;
+import _4.example.taskManagement.dto.UserDTO;
 import _4.example.taskManagement.repos.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -16,20 +18,29 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    // Tüm kullanıcıları al
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserDTO(user.getUsername(), user.getEmail(), user.getPhoneNo()))
+                .collect(Collectors.toList());
     }
 
-    public User createUser(User newUser) {
-        return userRepository.save(newUser);
+    // Yeni kullanıcı oluştur
+    public UserDTO createUser(User newUser) {
+        User savedUser = userRepository.save(newUser);
+        return new UserDTO(savedUser.getUsername(), savedUser.getEmail(), savedUser.getPhoneNo());
     }
 
-    public User getUserById(Long id) {
+    // Kullanıcıyı id'ye göre al
+    public UserDTO getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);  // Return User or null if not found
+        return user.map(u -> new UserDTO(u.getUsername(), u.getEmail(), u.getPhoneNo()))
+                .orElse(null);  // Kullanıcı bulunmazsa null döndür
     }
 
-    public User updateUser(Long id, User updatedUser) {
+    // Kullanıcıyı güncelle
+    public UserDTO updateUser(Long id, User updatedUser) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             User foundUser = user.get();
@@ -38,18 +49,20 @@ public class UserService {
             foundUser.setEmail(updatedUser.getEmail());
             foundUser.setPhoneNo(updatedUser.getPhoneNo());
             foundUser.setRole(updatedUser.getRole());
-            return userRepository.save(foundUser);
+            User savedUser = userRepository.save(foundUser);
+            return new UserDTO(savedUser.getUsername(), savedUser.getEmail(), savedUser.getPhoneNo());
         } else {
-            return null;
+            return null;  // Kullanıcı bulunamadı
         }
     }
 
+    // Kullanıcıyı sil
     public boolean deleteUser(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             userRepository.delete(user.get());
-            return true;  // Successfully deleted
+            return true;  // Başarıyla silindi
         }
-        return false;  // User not found
+        return false;  // Kullanıcı bulunamadı
     }
 }

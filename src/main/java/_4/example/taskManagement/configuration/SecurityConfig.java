@@ -32,8 +32,8 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((req -> req.requestMatchers("/register","/login").permitAll()
-                        .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .authorizeHttpRequests((req -> req.requestMatchers("/register","/login","/admin/login").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()))
                 .sessionManagement(mng -> mng.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

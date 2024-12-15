@@ -91,7 +91,7 @@ public class AccountService {
                 response.setStatusCode(200);
                 response.setToken(jwt);
                 response.setRefreshToken(refreshToken);
-                response.setExpirationTime("24Hr");
+                response.setExpirationTime("1Hr");
                 response.setRole(user.get().getRole());
                 response.setMessage("Successfully Logged In");
             } else {
