@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/login-register.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import Cookies from 'js-cookie';
@@ -36,6 +37,7 @@ function Login() {
   
 
   return (
+    
     <div className="form-container">
       <h2>Login</h2>
       <div className="form-group">
@@ -59,6 +61,7 @@ function Login() {
       {error && <p className="error">{error}</p>}
       <button onClick={handleLogin} className="submit-btn">Login</button>
     </div>
+  
   );
 }
 

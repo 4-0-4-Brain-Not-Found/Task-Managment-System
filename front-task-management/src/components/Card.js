@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import '../styles/styles.css';
 const Card = ({ task, updateTask, deleteTask }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(task.title);

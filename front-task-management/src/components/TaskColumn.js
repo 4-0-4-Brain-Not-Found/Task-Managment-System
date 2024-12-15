@@ -1,5 +1,6 @@
 import React from 'react';
 import CardList from './CardList';
+import '../styles/styles.css';
 
 const TaskColumn = ({ title, tasks, addTask, updateTask, deleteTask }) => {
   return (

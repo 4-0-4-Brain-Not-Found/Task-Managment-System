@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from './Card';
+import '../styles/styles.css';
 
 const CardList = ({ tasks, updateTask, deleteTask }) => {
   return (

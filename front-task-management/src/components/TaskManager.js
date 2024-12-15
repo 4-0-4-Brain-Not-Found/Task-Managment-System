@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TaskColumn from './TaskColumn';
 import { useTasks } from '../hooks/useTasks';
+import '../styles/styles.css';
 
 const TaskManager = () => {
   const { tasks, addTask, updateTask, deleteTask } = useTasks();

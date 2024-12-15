@@ -1,15 +1,16 @@
-/* Genel stil */
-body {
+.login-reg-body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #3498db, #9b59b6, #2ecc71); /* Arka plan renk geçişi */
+    background-size: cover; /* Arka planın tam alanı kaplaması */
     margin: 0;
     padding: 0;
-    height: 100vh;
+    min-height: 100vh; /* Tüm görünümü kaplamak için */
     display: flex;
     justify-content: center;
     align-items: center;
     animation: backgroundAnimation 10s infinite alternate; /* Arka plan animasyonu */
 }
+
 
 
 

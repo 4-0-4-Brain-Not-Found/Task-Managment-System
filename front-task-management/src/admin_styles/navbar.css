@@ -1,0 +1,20 @@
+/* Navbar Stil */
+.navbar {
+    background: linear-gradient(45deg, #6a11cb, #2575fc); /* Mavi ve mor geçiş */
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar h2 {
+    font-size: 1.8rem;
+  }
+  
+  .navbar .welcome {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
