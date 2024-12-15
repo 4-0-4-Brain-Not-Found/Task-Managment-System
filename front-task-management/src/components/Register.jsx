@@ -1,16 +1,41 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleRegister = () => {
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Phone Number:', phoneNumber);
+  const handleRegister = async () => {
+    
+    const registrationData = {
+      username,
+      email,
+      password,
+      phoneNumber,
+      
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8080/register', registrationData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        setSuccess('Registration successful, please login!');
+        setError('');
+      } else {
+        setError(response.data.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error(error.response ? error.response.data : error);
+      setError('An error occurred while registering');
+    }
   };
 
   return (
@@ -52,6 +77,8 @@ function Register() {
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
       </div>
+      {error && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>}
       <button onClick={handleRegister} className="submit-btn">Register</button>
     </div>
   );

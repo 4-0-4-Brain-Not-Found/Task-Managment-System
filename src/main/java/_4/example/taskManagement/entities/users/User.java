@@ -50,7 +50,7 @@ public class User extends BaseUser implements UserDetails {
 
     @Override
     public void setRole(Role role) {
-        this.role = role;
+        this.role = Role.ROLE_USER;
     }
 
     // UserDetails methods
