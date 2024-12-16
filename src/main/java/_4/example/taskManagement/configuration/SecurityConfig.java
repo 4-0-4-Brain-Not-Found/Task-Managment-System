@@ -1,6 +1,7 @@
 package _4.example.taskManagement.configuration;
 
 import _4.example.taskManagement.security.UserDetailService;
+import io.netty.handler.codec.http.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,10 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((req -> req.requestMatchers("/register","/login","/admin/login").permitAll()
+                .authorizeHttpRequests((req -> req
+                        .requestMatchers( "/tasks").hasRole("USER") // Sadece USER rolü POST yapabilir
+                        .requestMatchers( "/tasks").permitAll()
+                        .requestMatchers("/register","/login","/admin/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()))
                 .sessionManagement(mng -> mng.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -28,7 +28,7 @@ class TaskControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        taskDTO = new TaskDTO(1L, "Test Task", "Test Description", 1L, new java.util.Date(), null, null);
+        taskDTO = new TaskDTO(1L, "Test Task", "Test Description", 1L, new java.util.Date(), null);
     }
 
     @Test

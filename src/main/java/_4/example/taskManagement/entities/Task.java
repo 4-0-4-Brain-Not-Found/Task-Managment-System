@@ -6,6 +6,7 @@ import _4.example.taskManagement.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ForeignKey;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.*;
@@ -38,8 +39,6 @@ public class Task {
     @JsonIgnore
     private User assignedUser;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Set<Comment> comments = new HashSet<>();
 
     public Long getId() {return id;}
 
@@ -48,11 +47,11 @@ public class Task {
     public User getAssignedUser() {return assignedUser;}
     public Date getDueDate() {return dueDate;}
     public TaskStatus getTaskStatus() {return taskStatus; }
-    public Collection<Object> getComments() {return Collections.singleton(comments);}
+
     public void setTitle(String title) {this.title = title;}
     public void setDescription(String description) {this.description = description;}
     public void setDueDate(Date dueDate) {this.dueDate =dueDate;}
     public void setTaskStatus(TaskStatus taskStatus) {this.taskStatus=taskStatus;}
     public void setAssignedUser(User assignedUser) {this.assignedUser=assignedUser;}
-    public void setComments(Set<Comment> comments) {this.comments = comments;}
+
 }

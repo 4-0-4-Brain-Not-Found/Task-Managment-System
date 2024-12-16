@@ -21,23 +21,27 @@ public class TaskController {
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
-    // Tüm görevleri al
+
+    // Tüm görevleri al +
     @GetMapping
     public List<TaskDTO> getAllTasks() {
         return taskService.getAllTasks();
     }
-    // ID ile görevi al
+
+    // ID ile görevi al +
     @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
         TaskDTO taskDTO = taskService.getTaskById(id);
         return new ResponseEntity<>(taskDTO, HttpStatus.OK);
     }
-    // Yeni görev oluştur
+    // Yeni görev oluştur +
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
         TaskDTO createdTask = taskService.createTask(taskDTO);
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
+
+
 
     // Görev güncelle
     @PutMapping("/{id}")
