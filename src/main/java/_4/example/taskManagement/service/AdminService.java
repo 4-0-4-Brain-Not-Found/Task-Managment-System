@@ -29,42 +29,42 @@ public class AdminService {
     public ReqRes loginAdmin(String username, String password) {
         ReqRes response = new ReqRes();
         try {
-            // Admini repository'den al
+
             Optional<Admin> adminOptional = adminRepository.findByUsername(username);
             if (adminOptional.isEmpty()) {
                 response.setStatusCode(404);
-                response.setError("Admin bulunamadı");
+                response.setError("Admin not found");
                 return response;
             }
 
             Admin admin = adminOptional.get();
 
-            // **Opsiyonel: Manuel Şifre Kontrolü (Spring Security yerine)**
+
             if (!password.equals(admin.getPassword())) {
                 response.setStatusCode(401);
-                response.setError("Geçersiz kullanıcı adı veya şifre");
+                response.setError("Invalid username or password");
                 return response;
             }
 
             // Eğer authenticationManager kullanmak istiyorsanız:
             // authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-            // Admin için JWT token'ı oluştur
+
             String jwt = jwtUtil.generateToken(admin);
             String refreshToken = jwtUtil.generateRefreshToken(new HashMap<>(), admin);
 
-            // Yanıt detaylarını ayarla
+
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("1Hr");
-            response.setRole(admin.getRole()); // Rolü ayarla (genellikle ROLE_ADMIN)
-            response.setMessage("Admin başarılı bir şekilde giriş yaptı");
+            response.setRole(admin.getRole());
+            response.setMessage("Admin successfully logged in");
 
         } catch (Exception e) {
             e.printStackTrace(); // Hata detaylarını loglamak için
             response.setStatusCode(500);
-            response.setError("Giriş sırasında hata: " + e.getMessage());
+            response.setError("Error during login: " + e.getMessage());
         }
         return response;
     }

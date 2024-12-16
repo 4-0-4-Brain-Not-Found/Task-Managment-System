@@ -31,7 +31,7 @@ function Register() {
         setSuccess('Registration successful, please login!');
         setError('');
       } else {
-        setError(response.data.message || 'Registration failed');
+        setError(response.data.message);
       }
     } catch (error) {
       console.error(error.response ? error.response.data : error);

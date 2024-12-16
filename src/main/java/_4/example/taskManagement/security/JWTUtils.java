@@ -43,17 +43,10 @@ public class JWTUtils {
      * @return Oluşturulan JWT
      */
     public String generateToken(UserDetails userDetails) {
-        // Kullanıcının yetkilerini alır ve ilk yetkiyi rol olarak belirler
-        String role = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(auth -> auth.startsWith("ROLE_"))
-                .findFirst()
-                .orElse("ROLE_USER");
-
         // JWT'yi oluşturur ve döndürür
         return Jwts.builder()
                 .subject(userDetails.getUsername())
-                .claim("role", role)
+                .claim("role", userDetails.getAuthorities())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key)
@@ -82,6 +75,7 @@ public class JWTUtils {
         return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
+
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key)
@@ -119,9 +113,17 @@ public class JWTUtils {
      * @param userDetails Kullanıcı detayları
      * @return Geçerli ise true, değilse false
      */
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, UserDetails userDetails, String requiredRole) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        boolean isValid = username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+
+        // Check if the token has the required role (this is an example, adjust as necessary)
+        if (isValid) {
+            return userDetails.getAuthorities().stream()
+                    .anyMatch(authority -> authority.getAuthority().equals(requiredRole));
+        }
+
+        return false;
     }
 
     /**

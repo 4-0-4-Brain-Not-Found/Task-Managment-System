@@ -48,7 +48,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             try {
                 // Kullanıcıyı yükle
                 UserDetails userDetails = userDetailService.loadUserByUsername(userName);
-                if (jwtUtils.isTokenValid(jwtToken, userDetails)) {
+
+                // Dinamik role atama (userDetails üzerinden alınabilir)
+                String requiredRole = userDetails.getAuthorities().stream()
+                        .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN")) ? "ROLE_ADMIN" : "ROLE_USER";
+
+                // Pass the required role to the validation method
+                if (jwtUtils.isTokenValid(jwtToken, userDetails, requiredRole)) {
                     // Geçerli bir token olduğunda kimlik doğrulama token'ı oluştur
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
@@ -73,4 +79,5 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         // Filtre zincirini devam ettir
         filterChain.doFilter(request, response);
     }
+
 }

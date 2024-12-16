@@ -1,17 +1,13 @@
 import React from 'react';
 import Card from './Card';
-import '../styles/styles.css';
 
-const CardList = ({ tasks, updateTask, deleteTask }) => {
+const CardList = ({ tasks, fetchTasks }) => {
   return (
     <div className="card-list">
       {tasks.map((task) => (
-        <Card
-          key={task.id}
-          task={task}
-          updateTask={updateTask}
-          deleteTask={deleteTask}
-        />
+        <div key={task.id} className="task-card">
+          <Card task={task} fetchTasks={fetchTasks} />
+        </div>
       ))}
     </div>
   );

@@ -1,33 +1,65 @@
-import React from 'react';
-import '../admin_styles/dashboard.css'; // Dashboard stilini import et
+import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';  // For reading cookies
+import axios from 'axios';  // Import Axios
+import '../admin_styles/admin_page.css'; 
 
 const Dashboard = () => {
-  // Örnek log kayıtları
-  const logs = [
-    { id: 1, message: 'Admin logged in successfully.', date: '2024-12-10 08:30:00' },
-    { id: 2, message: 'New user created: John Doe.', date: '2024-12-10 09:00:00' },
-    { id: 3, message: 'Task "Report Generation" completed.', date: '2024-12-10 09:15:00' },
-    { id: 4, message: 'User "Jane Smith" updated.', date: '2024-12-10 09:30:00' },
-  ];
+  const [logs, setLogs] = useState([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLogs = async () => {
+      const token = Cookies.get('adminToken'); 
+
+      try {
+        const response = await axios.get('/admin/logs', {
+          headers: {
+            'Authorization': `Bearer ${token}`,  
+          },
+        });
+
+        setLogs(response.data);  
+      } catch (err) {
+        setError('Bir hata oluştu.');
+        console.error('Error fetching logs:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLogs();
+  }, []);
 
   return (
-    <div className="dashboard">
+    <div className="user-operations">
       <h3>Dashboard</h3>
-      <p>Welcome to the admin dashboard.</p>
-
-      {/* Log Kayıtları */}
-      <div className="logs">
-        <h4>Recent Log Entries</h4>
-        {logs.map((log) => (
-          <div className="log-item" key={log.id}>
-            <span>{log.message}</span>
-            <p>{log.date}</p>
-          </div>
-        ))}
-      </div>
+      {loading && <p>Loading logs...</p>}
+      {error && <p className="error">{error}</p>}
+      {!loading && logs.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>Message</th>
+              <th>Timestamp</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            {logs.map((log, index) => (
+              <tr key={index}>
+                <td>{log.message}</td>
+                <td>{log.timestamp}</td>
+                <td>{log.username}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No logs found.</p>
+      )}
     </div>
   );
 };
 
 export default Dashboard;
-  

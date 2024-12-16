@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../admin_styles/admin-login.css'; // Login stilini import et
+import Cookies from 'js-cookie'; 
+import '../admin_styles/admin-login.css'; 
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -11,13 +12,29 @@ const AdminLogin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Basit bir kontrol, gerçek projelerde API ile doğrulama yapılmalı
-    if (username === 'admin' && password === 'admin123') {
-      alert('Hoşgeldiniz, Admin!');
-      navigate('/'); // Başarılı giriş sonrası ana sayfaya yönlendirme
-    } else {
-      setError('Kullanıcı adı veya şifre yanlış!');
-    }
+    fetch('http://localhost:8080/admin/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.statusCode === 200) {
+          // Token'ı ve rolü çerezde sakla
+          Cookies.set('adminToken', data.token, { expires: 1 }); 
+          Cookies.set('role', data.role, { expires: 1 }); // Store role in cookie
+          alert('Hoşgeldiniz, Admin!');
+          navigate('/admin'); 
+        } else {
+          setError('Kullanıcı adı veya şifre yanlış!');
+        }
+      })
+      .catch((error) => {
+        setError('Bir hata oluştu.');
+        console.error('Login error:', error);
+      });
   };
 
   return (
@@ -42,9 +59,7 @@ const AdminLogin = () => {
           />
           <button type="submit">Giriş Yap</button>
         </form>
-        <a href="#" className="forgot-password">
-          Şifrenizi mi unuttunuz?
-        </a>
+
       </div>
     </div>
   );

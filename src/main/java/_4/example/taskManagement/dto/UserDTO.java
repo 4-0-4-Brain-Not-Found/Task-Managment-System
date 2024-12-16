@@ -1,18 +1,30 @@
 package _4.example.taskManagement.dto;
 
 public class UserDTO {
+    private Long id;
     private String username;
     private String email;
     private String phoneNo;
+    private String password;  // Add password field
 
     // Constructor
-    public UserDTO(String username, String email, String phoneNo) {
+    public UserDTO(Long id, String username, String email, String phoneNo, String password) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.phoneNo = phoneNo;
+        this.password = password;
     }
 
     // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -36,6 +48,12 @@ public class UserDTO {
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
-
-

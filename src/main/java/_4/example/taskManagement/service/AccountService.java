@@ -105,35 +105,5 @@ public class AccountService {
         return response;
     }
 
-    // Refresh JWT token
-    public ReqRes refreshToken(String token) {
-        ReqRes response = new ReqRes();
-        try {
-            // Extract the username from the token
-            String email = jwtUtils.extractUsername(token);
-            Optional<User> userOptional = userRepository.findByEmail(email);
 
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                if (jwtUtils.isTokenValid(token, user)) {
-                    String newJwt = jwtUtils.generateToken(user);
-                    response.setStatusCode(200);
-                    response.setToken(newJwt);
-                    response.setRefreshToken(token);
-                    response.setExpirationTime("24Hr");
-                    response.setMessage("Successfully Refreshed Token");
-                } else {
-                    response.setStatusCode(401);
-                    response.setError("Invalid or expired token");
-                }
-            } else {
-                response.setStatusCode(404);
-                response.setError("User not found");
-            }
-        } catch (Exception e) {
-            response.setStatusCode(500);
-            response.setError("Error during token refresh: " + e.getMessage());
-        }
-        return response;
-    }
 }
