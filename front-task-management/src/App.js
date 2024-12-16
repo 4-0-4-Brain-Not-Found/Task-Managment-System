@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
-import TaskManager from './components/TaskManager';
+import TaskManager from './components/TaskBoard';
 import Navbar from './admindb/AdminNavbar';
 import Sidebar from './admindb/Sidebar';
 import Dashboard from './admindb/Dashboard';
@@ -34,7 +34,7 @@ function App() {
             }
           />
 
-          <Route path="/task-manager" element={<TaskManager />} />
+          <Route path="/task-manager" element={<TaskBoard />} />
 
           {/* Login sayfası için navbar ve sidebar yok */}
         <Route path="/admin/login" element={<AdminLogin />} />

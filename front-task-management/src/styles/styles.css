@@ -1,33 +1,34 @@
-body {
-    font-family: Arial, sans-serif;
-  }
-  
-  .task-manager {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .task-column {
-    width: 30%;
-    border: 1px solid #ddd;
-    padding: 10px;
-  }
-  
-  .card-list {
-    margin-top: 10px;
-  }
-  
-  .card {
-    border: 1px solid #ddd;
-    margin: 10px 0;
-    padding: 10px;
-  }
-  textarea {
-    width: 100%;
-    height: 60px;
-    margin-top: 5px;
-  }
-  button {
-    margin: 5px;
-  }
-  
+.task-board {
+  display: flex;
+  gap: 20px;
+}
+
+.task-column {
+  width: 30%;
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-card {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
