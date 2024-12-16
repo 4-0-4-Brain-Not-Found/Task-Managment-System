@@ -1,5 +1,5 @@
 import React from 'react';
-import CardList from './CardList';
+import CardList from './CardList'; 
 import Cookies from 'js-cookie';
 import axios from "axios";
 
@@ -39,7 +39,7 @@ const TaskColumn = ({ title, tasks, fetchTasks }) => {
   return (
     <div className="task-column">
       <h2>{title}</h2>
-      <CardList tasks={tasks} fetchTasks={fetchTasks} />
+      <CardList tasks={tasks} fetchTasks={fetchTasks} /> {/* Pass tasks and fetchTasks to CardList */}
       <button onClick={addTask}>Add Task</button>
     </div>
   );
