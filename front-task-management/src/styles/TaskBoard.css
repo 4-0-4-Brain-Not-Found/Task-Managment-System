@@ -1,6 +1,6 @@
 /* TaskBoard.css */
 
-body {
+.task_board body {
     background-color: #f4f4f9; /* Soft background for the entire page */
     font-family: 'Arial', sans-serif;
     margin: 0;
