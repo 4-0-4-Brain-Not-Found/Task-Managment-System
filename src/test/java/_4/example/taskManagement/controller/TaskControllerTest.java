@@ -3,11 +3,14 @@ package _4.example.taskManagement.controller;
 
 import _4.example.taskManagement.dto.TaskDTO;
 import _4.example.taskManagement.service.TaskService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 
 import java.util.List;
@@ -73,10 +76,11 @@ class TaskControllerTest {
 
     @Test
     void testDeleteTask() {
-        doNothing().when(taskService).deleteTask(1L);
+        Mockito.when(this.taskService.deleteTask(1L)).thenReturn(true); // veya uygun dönüş tipi neyse
 
-        var response = taskController.deleteTask(1L);
+        ResponseEntity<Void> response = this.taskController.deleteTask(1L);
 
-        assertEquals(204, response.getStatusCodeValue());
+        Assertions.assertEquals(204, response.getStatusCodeValue());
     }
+
 }
