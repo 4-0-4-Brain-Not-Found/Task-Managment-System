@@ -1,6 +1,6 @@
 /* TaskBoard.css */
 
-.task_board body {
+.task-body { /* Corrected selector */
     background-color: #f4f4f9; /* Soft background for the entire page */
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -8,10 +8,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-  }
-  
-  .task-board {
+    height: 100vh; /* Ensure it fills the viewport */
+}
+
+.task-board {
     display: flex;
     gap: 20px;
     padding: 20px;
@@ -19,7 +19,10 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: fit-content;
-  }
+    align-self: center; /* Ensure centering within parent */
+}
+  
+
   
   .task-columns {
     display: flex;

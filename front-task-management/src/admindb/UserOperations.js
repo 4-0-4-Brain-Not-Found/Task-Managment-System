@@ -147,6 +147,7 @@ const UserOperations = () => {
                   ) : (
                     <>
                       <button onClick={() => handleEdit(user)}>Edit</button>
+                      <br></br>
                       <button onClick={() => handleDelete(user.id)}>Delete</button>
                     </>
                   )}

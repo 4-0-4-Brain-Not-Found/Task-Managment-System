@@ -1,0 +1,41 @@
+.navbar {
+  position: fixed; /* Sticks the navbar to the top */
+  top: 0; /* Aligns it to the top edge */
+  left: 0; /* Ensures it starts from the left edge */
+  width: 100%; /* Full-width navbar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #5a4fcf; /* Soft purple */
+  color: #fff;
+  padding: 10px 20px;
+  z-index: 1000; /* Ensures the navbar is above other elements */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.navbar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logout-button {
+  margin-right: 30px; /* Moves the button slightly to the left */
+  background-color: #9b6ef3; /* Vibrant purple */
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition effects */
+}
+
+.logout-button:hover {
+  background-color: #7e56d6; /* Slightly darker purple on hover */
+  transform: translateY(-2px); /* Lifts the button slightly */
+}
+
+.task-body {
+  margin-top: 60px; /* Prevents content from going under the fixed navbar */
+  background-color: #f4f4fb; /* Soft background for better contrast */
+}

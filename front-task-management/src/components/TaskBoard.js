@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TaskColumn from './TaskColumn';
+import Navbar from './Navbar'; // Import the Navbar component
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import '../styles/TaskBoard.css'; // CSS dosyasını ekledik
+import '../styles/TaskBoard.css';
 
 const TaskBoard = () => {
   const [tasks, setTasks] = useState([]);
@@ -45,7 +46,7 @@ const TaskBoard = () => {
         },
       });
 
-      fetchTasks(); // Yeni task eklendikten sonra listeyi yenile
+      fetchTasks();
     } catch (error) {
       console.error('Error adding task:', error);
     }
@@ -53,19 +54,26 @@ const TaskBoard = () => {
 
   const getTasksByStatus = (status) => tasks.filter((task) => task.taskStatus === status);
 
+  const handleLogout = () => {
+    window.location.href = '/'; // Redirect to login page
+  };
+
   return (
-    <div className="task-board">
-      {error && <p className="error">{error}</p>}
-      <div className="task-columns">
-        {['TODO', 'IN_PROGRESS', 'COMPLETED', 'ON_HOLD'].map((status) => (
-          <TaskColumn
-            key={status}
-            title={status}
-            tasks={getTasksByStatus(status)}
-            fetchTasks={fetchTasks}
-            addTask={() => addTask(status)} // Add Task fonksiyonunu gönder
-          />
-        ))}
+    <div className='task-body'>
+      <Navbar onLogout={handleLogout} /> {/* Render Navbar */}
+      <div className="task-board">
+        {error && <p className="error">{error}</p>}
+        <div className="task-columns">
+          {['TODO', 'IN_PROGRESS', 'COMPLETED', 'ON_HOLD'].map((status) => (
+            <TaskColumn
+              key={status}
+              title={status}
+              tasks={getTasksByStatus(status)}
+              fetchTasks={fetchTasks}
+              addTask={() => addTask(status)} // Add Task function
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
