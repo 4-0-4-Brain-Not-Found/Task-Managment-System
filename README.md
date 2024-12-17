@@ -119,9 +119,10 @@ Frontend uygulaması varsayılan olarak `http://localhost:3000` adresinde çalı
 - **İstek Gövdesi**:
     ```json
     {
-      "taskName": "string",
+      "title": "string",
       "description": "string",
-      "dueDate": "string"
+      "dueDate": "date",
+      "taskStatus": "TaskStatus" 
     }
     ```
   #### Update Task Endpoint
@@ -129,10 +130,11 @@ Frontend uygulaması varsayılan olarak `http://localhost:3000` adresinde çalı
 - **Endpoint**: `PUT /admin/tasks/{id]`
 - **İstek Gövdesi**:
     ```json
-    {
-      "taskName": "string",
+     {
+      "title": "string",
       "description": "string",
-      "dueDate": "string"
+      "dueDate": "date",
+      "taskStatus": "TaskStatus" 
     }
     ```
   #### Delete Task Endpoint
@@ -144,6 +146,9 @@ Frontend uygulaması varsayılan olarak `http://localhost:3000` adresinde çalı
 
 
 ## Testler
+Bu projede `TaskController` sınıfının işlevselliği, **JUnit 5** ve **Mockito** kullanılarak test edilmiştir.
+1. Test dosyası:
+    ```bash
+    .cd src/test/java/_4/example/taskManagement/controller/TaskControllerTest.java
 
-
-
+    ```
