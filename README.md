@@ -134,6 +134,7 @@ Frontend uygulaması varsayılan olarak `http://localhost:3000` adresinde çalı
       "description": "string",
       "dueDate": "string"
     }
+  
     ```
   #### Delete Task Endpoint
 
@@ -144,9 +145,6 @@ Frontend uygulaması varsayılan olarak `http://localhost:3000` adresinde çalı
 
 
 ## Testler
-Bu projede `TaskController` sınıfının işlevselliği, **JUnit 5** ve **Mockito** kullanılarak test edilmiştir.
-1. Test dosyası:
-    ```bash
-    .cd src/test/java/_4/example/taskManagement/controller/TaskControllerTest.java
 
-    ```
+
+
